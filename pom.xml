@@ -18,14 +18,14 @@
   <artifactId>aws-secretsmanager-jdbc</artifactId>
   <packaging>jar</packaging>
   <name>AWS Secrets Manager SQL Connection Library</name>
-  <version>1.0.6</version>
+  <version>1.0.6-KUBRA</version>
   <description>The AWS Secrets Manager SQL Connection Library for Java enables Java developers to easily
     connect to SQL databases using secrets stored in AWS Secrets Manager.
   </description>
   <url>https://aws.amazon.com/secrets-manager</url>
 
   <properties>
-    <aws-java-sdk.version>[1.11.418,)</aws-java-sdk.version>
+    <aws-java-sdk.version>[1.11.853,)</aws-java-sdk.version>
     <aws-secretsmanager-cache.version>1.0.1</aws-secretsmanager-cache.version>
     <lombok.version>1.16.20</lombok.version>
     <jackson.version>2.10.3</jackson.version>
@@ -36,7 +36,7 @@
     <javadoc.plugin.version>3.0.1</javadoc.plugin.version>
     <source.plugin.version>3.0.1</source.plugin.version>
     <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
-    <findbugs.plugin.version>3.0.4</findbugs.plugin.version>
+    <kubra-nexus.base.url>https://nexus.ifactornotifi.com</kubra-nexus.base.url>
   </properties>
 
   <licenses>
@@ -48,7 +48,7 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/aws/aws-secretsmanager-jdbc.git</url>
+    <url>https://github.com/toran414/aws-secretsmanager-jdbc.git</url>
   </scm>
 
   <developers>
@@ -63,14 +63,16 @@
   </developers>
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://aws.oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
     <repository>
-      <id>ossrh</id>
-      <url>https://aws.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <id>kubra-tempe-nexus</id>
+      <name>Releases</name>
+      <url>${kubra-nexus.base.url}/repository/releases</url>
     </repository>
+    <snapshotRepository>
+      <id>kubra-tempe-nexus</id>
+      <name>Snapshot</name>
+      <url>${kubra-nexus.base.url}/repository/snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <dependencies>
@@ -188,60 +190,7 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>${findbugs.plugin.version}</version>
-        <configuration>
-          <effort>Max</effort>
-          <threshold>Low</threshold>
-          <xmlOutput>true</xmlOutput>
-        </configuration>
-        <executions>
-          <execution>
-            <id>analyze-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 
-  <profiles>
-    <profile>
-      <id>publishing</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.8</version>
-            <extensions>true</extensions>
-            <configuration>
-              <serverId>sonatype-nexus-staging</serverId>
-              <nexusUrl>https://aws.oss.sonatype.org</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
